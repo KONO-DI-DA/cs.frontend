@@ -1,8 +1,10 @@
 import axios from 'axios'
+import './axiosWithAuth'
+import {axiosWithAuth} from "./axiosWithAuth";
 
 const auth = {
   register(user) {
-    return axios
+    axiosWithAuth()
       .post('registerEndPoint', user)
       .then(res => {
         console.log(res)

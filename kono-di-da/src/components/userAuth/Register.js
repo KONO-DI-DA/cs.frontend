@@ -30,7 +30,7 @@ const Register = () => {
         <input
           type='text'
           name='username'
-          placeholder='Please enter your email'
+          placeholder='Please enter a username'
           value={user.email}
           onChange={handleChange}
         />
