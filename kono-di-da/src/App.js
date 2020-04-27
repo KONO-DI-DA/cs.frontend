@@ -4,15 +4,14 @@ import LandingPage from "./components/landingPage/LandingPage";
 import {Link, Route} from 'react-router-dom'
 import GameView from "./components/gameView/GameView";
 import Team from "./components/team/Team";
+import NavBar from "./components/navBar/NavBar";
 
 function App() {
 
 
   return (
     <div className="App">
-      <Link to='/'>Home</Link>
-      <Link to='/play'>Play</Link>
-      <Link to='/team'>Team</Link>
+      <NavBar/>
       <Route exact path='/'>
         <LandingPage/>
       </Route>
