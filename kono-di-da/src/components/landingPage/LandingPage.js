@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link, Route} from 'react-router-dom'
 
 const LandingPage = () => {
   return (
@@ -8,6 +9,12 @@ const LandingPage = () => {
         <p>Words about the game</p>
         <p>More words about game</p>
         <p>Get started</p>
+        <Link to='sign-in'>
+          <button>Sign In</button>
+        </Link>
+        <Link to='register'>
+          <button>Register</button>
+        </Link>
       </div>
     </div>
   );

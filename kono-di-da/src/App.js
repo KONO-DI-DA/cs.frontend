@@ -5,6 +5,8 @@ import {Link, Route} from 'react-router-dom'
 import GameView from "./components/gameView/GameView";
 import Team from "./components/team/Team";
 import NavBar from "./components/navBar/NavBar";
+import SignIn from "./components/userAuth/SignIn";
+import Register from "./components/userAuth/Register";
 
 function App() {
 
@@ -20,6 +22,12 @@ function App() {
       </Route>
       <Route exact path='/team'>
         <Team/>
+      </Route>
+      <Route exact path='/sign-in'>
+        <SignIn/>
+      </Route>
+      <Route exact path='/register'>
+        <Register/>
       </Route>
     </div>
   );
