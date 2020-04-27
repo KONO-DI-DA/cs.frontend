@@ -17,9 +17,32 @@ const Register = () => {
     console.log('user', user);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    auth.register(user);
+    console.log(user)
+  };
+
   return (
     <div className='register'>
-
+      <h1>Register</h1>
+      <form className='register-form' onSubmit={handleSubmit}>
+        <input
+          type='text'
+          name='username'
+          placeholder='Please enter your email'
+          value={user.email}
+          onChange={handleChange}
+        />
+        <input
+          type='password'
+          name='password'
+          placeholder='Please enter a password'
+          value={user.password}
+          onChange={handleChange}
+        />
+        <button className='register-submit'>Submit</button>
+      </form>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const auth = {
         console.log(err)
       })
   },
-  signUn(user) {
+  signIn(user) {
     return axios
       .post('signInEndPoint', user)
       .then(res => {
