@@ -1,0 +1,47 @@
+.player-stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  //border: 1px solid black;
+  .player-stats-left {
+    //border: 1px solid black;
+  }
+  .player-stats-right {
+    //border: 1px solid black;
+  }
+}
+
+.player-view {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  .current-room {
+    border: 1px solid black;
+    height: 450px;
+    width: 500px;
+  }
+  .map {
+    border: 1px solid black;
+    height: 450px;
+    width: 500px;
+  }
+  .controls {
+    margin: auto 0;
+    //border: 1px solid black;
+    .arrows {
+      display: flex;
+      flex-direction: column;
+      p {
+        margin: 0;
+        font-size: 50px;
+      }
+    }
+    .left-and-right {
+      display: flex;
+      flex-direction: row;
+      p {
+        padding: 0 10px 0 10px;
+      }
+    }
+  }
+}
