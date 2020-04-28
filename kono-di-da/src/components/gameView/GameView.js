@@ -15,6 +15,13 @@ const GameView = () => {
       id: 12
     });
 
+  const changePlayerLocation = () => {
+    console.log(playerState.locationID);
+    const updatedPlayerState = {...playerState, locationID: locations[5]};
+    console.log(updatedPlayerState);
+    setPlayerState(updatedPlayerState)
+  };
+
   const changeLocationWithArrows = (e) => {
     if (e.key === 'ArrowUp') {
       console.log('You have moved up')
@@ -28,7 +35,7 @@ const GameView = () => {
   };
   const changeLocation = (e) => {
     e.preventDefault();
-    console.log(e.target.value)
+    changePlayerLocation();
   };
 
   useEffect(() => {
