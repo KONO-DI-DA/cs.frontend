@@ -15,15 +15,9 @@ function App() {
   return (
     <div className="App">
       <NavBar/>
-      <Route exact path='/'>
-        <LandingPage/>
-      </Route>
-      <Route exact path='/play'>
-        <GameView/>
-      </Route>
-      <Route exact path='/team'>
-        <Team/>
-      </Route>
+      <Route exact path='/' component={LandingPage}/>
+      <PrivateRoute exact path='/play' component={GameView}/>
+      <Route exact path='/team' component={Team}/>
       <Route exact path='/sign-in'>
         <SignIn/>
       </Route>
