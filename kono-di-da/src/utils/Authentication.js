@@ -14,7 +14,7 @@ const auth = {
       })
   },
   signIn(user) {
-    return axios
+    axiosWithAuth()
       .post('signInEndPoint', user)
       .then(res => {
         localStorage.setItem('userToken', res.data.token);

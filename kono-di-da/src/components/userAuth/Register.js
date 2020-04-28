@@ -14,7 +14,7 @@ const Register = () => {
       'updated user', updatedUser
     );
     setUser(updatedUser);
-    console.log('user', user);
+    // consolelog('user', user);
   };
 
   const handleSubmit = (e) => {
@@ -31,7 +31,7 @@ const Register = () => {
           type='text'
           name='username'
           placeholder='Please enter a username'
-          value={user.email}
+          value={user.username}
           onChange={handleChange}
         />
         <input

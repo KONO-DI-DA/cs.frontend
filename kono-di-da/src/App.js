@@ -7,6 +7,7 @@ import Team from "./components/team/Team";
 import NavBar from "./components/navBar/NavBar";
 import SignIn from "./components/userAuth/SignIn";
 import Register from "./components/userAuth/Register";
+import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
 
