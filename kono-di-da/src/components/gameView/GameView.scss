@@ -27,12 +27,11 @@
   }
   .controls {
     margin: auto 0;
-    border: 1px solid black;
+    //border: 1px solid black;
     .arrows {
       display: flex;
       flex-direction: column;
       p {
-        border: 1px solid black;
         margin: 0;
         font-size: 50px;
       }
@@ -43,9 +42,6 @@
       p {
         padding: 0 10px 0 10px;
       }
-    }
-    .enter {
-      border: 1px solid black;
     }
   }
 }
