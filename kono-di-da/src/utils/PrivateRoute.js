@@ -11,8 +11,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
         ) : (
           <Redirect to='/sign-in'/>
         )
-      }>
-    </Route>
+      }/>
   );
 };
 
