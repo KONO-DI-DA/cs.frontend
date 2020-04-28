@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import auth from "../../utils/Authentication";
 
-const SignIn = () => {
+const SignIn = (props) => {
   const [user, setUser] = useState({
     username: '',
     password: ''
@@ -20,7 +20,8 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     auth.signIn(user);
-    console.log(user)
+    console.log(user);
+    props.history.push('/play')
   };
 
   return (

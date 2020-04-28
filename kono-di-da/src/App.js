@@ -18,12 +18,8 @@ function App() {
       <Route exact path='/' component={LandingPage}/>
       <PrivateRoute exact path='/play' component={GameView}/>
       <Route exact path='/team' component={Team}/>
-      <Route exact path='/sign-in'>
-        <SignIn/>
-      </Route>
-      <Route exact path='/register'>
-        <Register/>
-      </Route>
+      <Route exact path='/sign-in' component={SignIn}/>
+      <Route exact path='/register' component={Register}/>
     </div>
   );
 }
