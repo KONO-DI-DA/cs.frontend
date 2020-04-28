@@ -6,6 +6,13 @@ const GameView = () => {
 
   const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+  const [season, setSeason] = useState('');
+  const changeSeason = (e) => {
+    e.preventDefault();
+   setSeason(e.target.value);
+    console.log()
+  };
+
   const [playerState, setPlayerState] = useState(
     {
       location: 'January 1-4',
@@ -38,7 +45,7 @@ const GameView = () => {
     changePlayerLocation();
   };
 
-  window.addEventListener('keydown', changeLocationWithArrows);
+  // window.addEventListener('keydown', changeLocationWithArrows);
 
   return (
     <div className='game-view'>
@@ -67,7 +74,7 @@ const GameView = () => {
             </div>
             <div className='left-and-right'>
               <button onClick={changeLocation} value='left'>&#8592;</button>
-              <button button onClick={changeLocation} value='right'>&#8594;</button>
+              <button onClick={changeLocation} value='right'>&#8594;</button>
             </div>
             <div className='down'>
               <button onClick={changeLocation} value='down'>&#8595;</button>
@@ -80,6 +87,13 @@ const GameView = () => {
         <div className='map'>
           <p>Map</p>
         </div>
+      </div>
+      <div>
+        <p>Current Season: {season}</p>
+        <button value='Winter' onClick={changeSeason}>Winter</button>
+        <button value='Spring' onClick={changeSeason}>Spring</button>
+        <button value='Summer' onClick={changeSeason}>Summer</button>
+        <button value='Fall' onClick={changeSeason}>Fall</button>
       </div>
     </div>
   );
