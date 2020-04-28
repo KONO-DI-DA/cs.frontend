@@ -6,7 +6,7 @@ const GameView = () => {
 
   const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  const [season, setSeason] = useState('');
+  const [season, setSeason] = useState('none');
   const changeSeason = (e) => {
     e.preventDefault();
    setSeason(e.target.value);
@@ -64,7 +64,7 @@ const GameView = () => {
         </div>
       </div>
       <div className='player-view'>
-        <div className='current-room'>
+        <div className={`current-room-${season}`}>
           <p>Current Room</p>
         </div>
         <div className='controls'>
