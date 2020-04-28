@@ -37,10 +37,7 @@ const GameView = () => {
     e.preventDefault();
     changePlayerLocation();
   };
-
-  useEffect(() => {
-    window.addEventListener('keydown', changeLocationWithArrows)
-  }, [playerState]);
+  window.addEventListener('keydown', changeLocationWithArrows);
 
   return (
     <div className='game-view'>
