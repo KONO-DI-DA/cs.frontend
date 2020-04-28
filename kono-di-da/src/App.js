@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import LandingPage from "./components/landingPage/LandingPage";
+import {Link, Route} from 'react-router-dom'
+import GameView from "./components/gameView/GameView";
+import Team from "./components/team/Team";
+import NavBar from "./components/navBar/NavBar";
+import SignIn from "./components/userAuth/SignIn";
+import Register from "./components/userAuth/Register";
+import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
 
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavBar/>
+      <Route exact path='/' component={LandingPage}/>
+      {/*<PrivateRoute exact path='/play' component={GameView}/>*/}
+      <Route exact path='/play' component={GameView}/>
+      <Route exact path='/team' component={Team}/>
+      <Route exact path='/sign-in' component={SignIn}/>
+      <Route exact path='/register' component={Register}/>
     </div>
   );
 }
