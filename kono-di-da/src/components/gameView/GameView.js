@@ -17,28 +17,34 @@ const GameView = () => {
 
   const changePlayerLocation = () => {
     console.log(playerState.locationID);
-    setPlayerState({...playerState, locationID: locations[5]});
+    // setPlayerState({...playerState, locationID: locations[5]});
     // const updatedPlayerState = {...playerState, locationID: locations[5]};
     console.log(playerState);
   };
 
-  const changeLocationWithArrows = (e) => {
-    if (e.key === 'ArrowUp') {
-      console.log('You have moved up')
-    } else if (e.key === 'ArrowDown') {
-      console.log('You have moved down')
-    } else if (e.key === 'ArrowLeft') {
-      console.log('You have moved left')
-    } else if (e.key === 'ArrowRight') {
-      console.log('You have moved right.')
+  useEffect(() => {
+    if (playerState.locationID){
+      changePlayerLocation()
     }
-  };
+  }, [playerState]);
+
+  // const changeLocationWithArrows = (e) => {
+  //   if (e.key === 'ArrowUp') {
+  //     console.log('You have moved up')
+  //   } else if (e.key === 'ArrowDown') {
+  //     console.log('You have moved down')
+  //   } else if (e.key === 'ArrowLeft') {
+  //     console.log('You have moved left')
+  //   } else if (e.key === 'ArrowRight') {
+  //     console.log('You have moved right.')
+  //   }
+  // };
   const changeLocation = (e) => {
     e.preventDefault();
     changePlayerLocation();
   };
 
-  window.addEventListener('keydown', changeLocationWithArrows);
+  // window.addEventListener('keydown', changeLocationWithArrows);
 
   return (
     <div className='game-view'>
