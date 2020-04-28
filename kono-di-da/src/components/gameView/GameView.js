@@ -17,9 +17,9 @@ const GameView = () => {
 
   const changePlayerLocation = () => {
     console.log(playerState.locationID);
-    const updatedPlayerState = {...playerState, locationID: locations[5]};
-    console.log(updatedPlayerState);
-    setPlayerState(updatedPlayerState)
+    setPlayerState({...playerState, locationID: locations[5]});
+    // const updatedPlayerState = {...playerState, locationID: locations[5]};
+    console.log(playerState);
   };
 
   const changeLocationWithArrows = (e) => {
@@ -37,6 +37,7 @@ const GameView = () => {
     e.preventDefault();
     changePlayerLocation();
   };
+
   window.addEventListener('keydown', changeLocationWithArrows);
 
   return (

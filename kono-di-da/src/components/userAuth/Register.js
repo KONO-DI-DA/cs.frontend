@@ -4,6 +4,7 @@ import auth from '../../utils/Authentication'
 const Register = () => {
   const [user, setUser] = useState({
     username: '',
+    email: '',
     password: ''
   });
 
@@ -32,6 +33,13 @@ const Register = () => {
           name='username'
           placeholder='Please enter a username'
           value={user.username}
+          onChange={handleChange}
+        />
+        <input
+          type='email'
+          name='email'
+          placeholder='Please enter your email'
+          value={user.email}
           onChange={handleChange}
         />
         <input
