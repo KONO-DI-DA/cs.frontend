@@ -12,6 +12,28 @@ const GameView = () => {
 const {playerState, setPlayerState} = useContext(UserContext);
 const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+//  Logic to set the current_location
+// const [curr_room, setCurrRoom] = useState
+
+const [rooms, setRooms] = useState([]) 
+
+
+
+const [player, setPlayer] = useState({})
+
+useEffect(()=>{
+        axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
+          .then(response => {
+            console.log(response);
+            setRooms(response.data)
+          });
+        axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/player")
+          .then(response => {
+            console.log(response);
+            setPlayer(response.data)
+          });
+},[]
+)
 
   const changeLocationWithArrows = (e) => {
     if (e.key === "ArrowUp") {
@@ -37,12 +59,8 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     changePlayerLocation();
   };
  
-  // const getRooms = () => {
-  //       axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
-  //         .then(response => {
-  //           console.log(response);
-  //         });
-  //     }
+let currentLocation = 30
+
   
   window.addEventListener("keydown", changeLocationWithArrows);
 
@@ -51,7 +69,7 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <div className="game-view">
       <h1>Game View</h1>
-      <Player/>
+      {/* <Player/> */}
       <div className="player-view">
       
         <div className="current-room">
@@ -84,7 +102,7 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         </div>
         <div className="map">
           <p>Map</p>
-          <CalendarMap/>
+          <CalendarMap currentLocation={currentLocation} rooms={rooms} player={player}/>
         </div>
       </div>
     </div>

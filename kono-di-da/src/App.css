@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+
+
+.maprooms {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+}
+
+.mapbox {
+  border: 2px solid blue;
+  width: 23%;
+  font-size: 15px;
+  height: 40px;
+  border-radius: 3px;
+  box-shadow: 5px grey;
+  margin: 2px;
+  background: #caaed6;
+}
+
+.mapbox-selected {
+  border: 2px solid blue;
+  width: 23%;
+  font-size: 15px;
+  background-color: yellow;
+  border-radius: 3px;
+}
