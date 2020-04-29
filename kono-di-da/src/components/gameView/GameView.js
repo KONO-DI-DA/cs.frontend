@@ -7,8 +7,8 @@ import "./GameView.scss";
 const GameView = () => {
 
 
-const {playerState, setPlayerState} = useContext(UserContext);
-const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const {playerState, setPlayerState} = useContext(UserContext);
+  const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 
   const changeLocationWithArrows = (e) => {
@@ -57,7 +57,7 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
               <button onClick={changeLocation} value="left">
                 &#8592;
               </button>
-              <button button onClick={changeLocation} value="right">
+              <button onClick={changeLocation} value="right">
                 &#8594;
               </button>
             </div>
