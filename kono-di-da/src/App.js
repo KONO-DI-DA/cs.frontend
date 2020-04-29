@@ -16,8 +16,8 @@ function App() {
     <div className="App">
       <NavBar/>
       <Route exact path='/' component={LandingPage}/>
-      {/*<PrivateRoute exact path='/play' component={GameView}/>*/}
-      <Route exact path='/play' component={GameView}/>
+      <PrivateRoute exact path='/play' component={GameView}/>
+      {/*<Route exact path='/play' component={GameView}/>*/}
       <Route exact path='/team' component={Team}/>
       <Route exact path='/sign-in' component={SignIn}/>
       <Route exact path='/register' component={Register}/>

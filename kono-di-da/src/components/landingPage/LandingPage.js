@@ -1,7 +1,16 @@
 import React from 'react';
 import {Link, Route} from 'react-router-dom'
+import auth from '../../utils/Authentication'
 
 const LandingPage = () => {
+
+  const logOut = (e) => {
+    e.preventDefault();
+    auth.logOut();
+    localStorage.removeItem('userToken');
+    console.log('Logged out')
+  };
+
   return (
     <div className='landing-page'>
       <div className='main-content'>
@@ -15,6 +24,7 @@ const LandingPage = () => {
         <Link to='register'>
           <button>Register</button>
         </Link>
+        <button onClick={logOut}>Log Out</button>
       </div>
     </div>
   );

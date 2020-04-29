@@ -7,9 +7,10 @@ const GameView = () => {
   const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const [season, setSeason] = useState('none');
+
   const changeSeason = (e) => {
     e.preventDefault();
-   setSeason(e.target.value);
+    setSeason(e.target.value);
     console.log()
   };
 
