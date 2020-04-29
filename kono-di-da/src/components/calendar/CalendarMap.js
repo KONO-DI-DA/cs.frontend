@@ -4,23 +4,28 @@ import {axiosWithAuth} from '../../utils/axiosWithAuth';
 
 
 
-const CalendarMap = () => {
-
-const [rooms, setRooms] = useState([]) 
-
-useEffect(()=>{
-        axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
-          .then(response => {
-            console.log(response);
-            setRooms(response.data)
-          });
-},[]
-)
 
 
+const CalendarMap = (props) => {
 
-   return <div>{rooms.map(room => <div>{room.name}</div>)}</div>
 
+    
+
+   return (
+   <div className='maprooms'>
+   {props.currentLocation < 53 ? 
+        props.rooms.filter((e) => e.id <53 ).map( room => {
+    return( <div className={room.id === props.currentLocation ? "mapbox-selected" : "mapbox" }>
+                <div>{room.name}</div>
+            </div>)
+        })
+:
+props.rooms.filter((e) => e.id > 52 ).map( room => {
+    return(<div className={room.id === props.currentLocation ? "mapbox-selected" : "mapbox" }>
+        <div>{room.name}</div>
+    </div>)
+})
+} </div>)
 }
 
 export default CalendarMap
