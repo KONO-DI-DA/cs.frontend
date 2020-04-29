@@ -6,6 +6,7 @@
   .player-stats-left {
     //border: 1px solid black;
   }
+
   .player-stats-right {
     //border: 1px solid black;
   }
@@ -15,30 +16,71 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  .current-room {
+
+  .current-room-none {
     border: 1px solid black;
     height: 450px;
     width: 500px;
   }
+
+  .current-room-Spring {
+    border: 1px solid black;
+    height: 450px;
+    width: 500px;
+    background-color: greenyellow;
+  }
+
+  .current-room-Winter {
+    border: 1px solid black;
+    height: 450px;
+    width: 500px;
+    background-color: lightblue;
+  }
+
+  .current-room-Fall {
+    border: 1px solid black;
+    height: 450px;
+    width: 500px;
+    background-color: darkorange;
+  }
+
+  .current-room-Summer {
+    border: 1px solid black;
+    height: 450px;
+    width: 500px;
+    background-color: lime;
+  }
+
   .map {
     border: 1px solid black;
     height: 450px;
     width: 500px;
   }
+
+  .map-summer {
+    border: 1px solid black;
+    height: 450px;
+    width: 500px;
+    background-color: lime;
+  }
+
   .controls {
     margin: auto 0;
     //border: 1px solid black;
     .arrows {
       display: flex;
       flex-direction: column;
+
       p {
         margin: 0;
         font-size: 50px;
       }
     }
+
     .left-and-right {
       display: flex;
       flex-direction: row;
+
       p {
         padding: 0 10px 0 10px;
       }

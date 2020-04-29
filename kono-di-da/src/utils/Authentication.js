@@ -14,11 +14,21 @@ const auth = {
       })
   },
   signIn(user) {
-    axiosWithAuth()
+    axios
       .post('https://kono-di-da.herokuapp.com/api/auth/login', user)
       .then(res => {
-        localStorage.setItem('userToken', res.data.token);
-        console.log(res.data);
+        console.log(res.data.token);
+        localStorage.setItem('token', res.data.token);
+      })
+  },
+  logOut() {
+    axiosWithAuth()
+      .post('https://kono-di-da.herokuapp.com/api/auth/logout')
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err)
       })
   }
 };

@@ -25,16 +25,16 @@ function App() {
 
 
   return (
-    
+
     <div className="App">
       <NavBar/>
       <Route exact path='/' component={LandingPage}/>
       {/*<PrivateRoute exact path='/play' component={GameView}/>*/}
       <UserContext.Provider value={{playerState, setPlayerState}}>
-      <Route exact path='/play' component={GameView}/>
-      <Route exact path='/team' component={Team}/>
-      <Route exact path='/sign-in' component={SignIn}/>
-      <Route exact path='/register' component={Register}/>
+        <Route exact path='/play' component={GameView}/>
+        <Route exact path='/team' component={Team}/>
+        <Route exact path='/sign-in' component={SignIn}/>
+        <Route exact path='/register' component={Register}/>
       </UserContext.Provider>
     </div>
   );

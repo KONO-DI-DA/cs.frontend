@@ -9,9 +9,9 @@ import "./GameView.scss";
 
 const GameView = () => {
 
-const {playerState, setPlayerState} = useContext(UserContext)
-console.log(playerState)
+const {playerState, setPlayerState} = useContext(UserContext);
 const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 
   const changeLocationWithArrows = (e) => {
     if (e.key === "ArrowUp") {
@@ -27,7 +27,7 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const changePlayerLocation = () => {
     console.log(playerState.locationID);
-    const updatedPlayerState = { ...playerState, locationID: locations[8] };
+    const updatedPlayerState = {...playerState, locationID: locations[8]};
     console.log(updatedPlayerState);
     setPlayerState(updatedPlayerState);
   };
@@ -51,8 +51,7 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <div className="game-view">
       <h1>Game View</h1>
-    
-      <Player />
+      <Player/>
       <div className="player-view">
       
         <div className="current-room">

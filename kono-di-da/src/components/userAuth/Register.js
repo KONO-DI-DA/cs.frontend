@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios'
 import auth from '../../utils/Authentication'
 
 const Register = (props) => {
@@ -10,12 +11,8 @@ const Register = (props) => {
 
   const handleChange = (e) => {
     const updatedUser = {...user, [e.target.name]: e.target.value};
-    console.log
-    ('handle change', e.target.name, e.target.value,
-      'updated user', updatedUser
-    );
     setUser(updatedUser);
-    // consolelog('user', user);
+    // console.log('user', user);
   };
 
   const handleSubmit = (e) => {
