@@ -15,7 +15,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
   const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const [playerState, setPlayerState] = useState({
+  const [playerState, setPlayerState] = useState({
     location: "January 1-4",
     locationID: locations[1],
     heldItems: ["Party Hat", "Wrench", "Very Small Rock"],

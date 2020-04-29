@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import auth from '../../utils/Authentication'
 
-const Register = () => {
+const Register = (props) => {
   const [user, setUser] = useState({
     username: '',
+    email: '',
     password: ''
   });
 
@@ -21,6 +22,7 @@ const Register = () => {
     e.preventDefault();
     auth.register(user);
     console.log(user)
+    props.history.push('/sign-in')
   };
 
   return (
@@ -32,6 +34,13 @@ const Register = () => {
           name='username'
           placeholder='Please enter a username'
           value={user.username}
+          onChange={handleChange}
+        />
+        <input
+          type='email'
+          name='email'
+          placeholder='Please enter your email address'
+          value={user.email}
           onChange={handleChange}
         />
         <input
