@@ -1,13 +1,15 @@
 import React, {useState, useEffect, useContext} from "react";
-import {userContext} from '../../contexts/UserContext'
+import {UserContext} from '../contexts/UserContext'
 import User from "../user/User";
 import Player from "../user/Player";
 import "./GameView.scss";
 
 const GameView = () => {
 
-  const {playerState, setPlayerState} = useContext(UserContext)
-  const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const {playerState, setPlayerState} = useContext(UserContext);
+const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 
   const changeLocationWithArrows = (e) => {
     if (e.key === "ArrowUp") {
