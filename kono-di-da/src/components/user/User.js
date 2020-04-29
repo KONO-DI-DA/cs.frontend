@@ -9,7 +9,7 @@ function User(props) {
   });
   return (
     <div className="profile">
-      <p>{user.username}</p>
+     
     </div>
   );
 }
