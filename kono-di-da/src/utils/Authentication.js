@@ -14,11 +14,11 @@ const auth = {
       })
   },
   signIn(user) {
-    axiosWithAuth()
+    axios
       .post('https://kono-di-da.herokuapp.com/api/auth/login', user)
       .then(res => {
         console.log(res.data.token);
-        localStorage.setItem('userToken', res.data.token);
+        localStorage.setItem('token', res.data.token);
       })
   },
   logOut() {

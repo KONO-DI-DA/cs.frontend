@@ -7,7 +7,7 @@ const LandingPage = () => {
   const logOut = (e) => {
     e.preventDefault();
     auth.logOut();
-    localStorage.removeItem('userToken');
+    localStorage.removeItem('token');
     console.log('Logged out')
   };
 
