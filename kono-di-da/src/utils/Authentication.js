@@ -4,7 +4,7 @@ import {axiosWithAuth} from "./axiosWithAuth";
 
 const auth = {
   register(user) {
-    axiosWithAuth()
+    axios
       .post('https://kono-di-da.herokuapp.com/api/auth/register', user)
       .then(res => {
         console.log(res)
@@ -14,7 +14,7 @@ const auth = {
       })
   },
   signIn(user) {
-    axios
+    return axios
       .post('https://kono-di-da.herokuapp.com/api/auth/login', user)
       .then(res => {
         console.log(res.data.token);

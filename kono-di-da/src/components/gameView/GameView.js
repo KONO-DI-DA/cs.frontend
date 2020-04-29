@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import React, {useState, useEffect, useContext} from "react";
+import {UserContext} from "../contexts/UserContext";
 import axios from 'axios';
 import {axiosWithAuth} from '../../utils/axiosWithAuth';
 import User from "../user/User";
@@ -9,31 +9,32 @@ import "./GameView.scss";
 
 const GameView = () => {
 
-const {playerState, setPlayerState} = useContext(UserContext);
-const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const {playerState, setPlayerState} = useContext(UserContext);
+  const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 
 //  Logic to set the current_location
 // const [curr_room, setCurrRoom] = useState
 
-const [rooms, setRooms] = useState([]) 
+  const [rooms, setRooms] = useState([])
 
 
+  const [player, setPlayer] = useState({})
 
-const [player, setPlayer] = useState({})
-
-useEffect(()=>{
-        axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
-          .then(response => {
-            console.log(response);
-            setRooms(response.data)
-          });
-        axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/player")
-          .then(response => {
-            console.log(response);
-            setPlayer(response.data)
-          });
-},[]
-)
+  useEffect(() => {
+      axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
+        .then(response => {
+          console.log(response);
+          setRooms(response.data)
+        });
+      axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/player")
+        .then(response => {
+          console.log(response);
+          setPlayer(response.data)
+        });
+    }, []
+  );
 
   const changeLocationWithArrows = (e) => {
     if (e.key === "ArrowUp") {
@@ -58,12 +59,11 @@ useEffect(()=>{
     e.preventDefault();
     changePlayerLocation();
   };
- 
-let currentLocation = 30
 
-  
+  let currentLocation = 30
+
+
   window.addEventListener("keydown", changeLocationWithArrows);
-
 
 
   return (
@@ -71,7 +71,7 @@ let currentLocation = 30
       <h1>Game View</h1>
       {/* <Player/> */}
       <div className="player-view">
-      
+
         <div className="current-room">
           <p>Current Room</p>
         </div>
@@ -86,7 +86,7 @@ let currentLocation = 30
               <button onClick={changeLocation} value="left">
                 &#8592;
               </button>
-              <button button onClick={changeLocation} value="right">
+              <button onClick={changeLocation} value="right">
                 &#8594;
               </button>
             </div>

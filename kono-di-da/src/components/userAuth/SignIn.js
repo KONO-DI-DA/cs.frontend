@@ -12,20 +12,23 @@ const SignIn = (props) => {
 
   const handleChange = (e) => {
     const updatedUser = {...user, [e.target.name]: e.target.value};
-    console.log
-    ('handle change', e.target.name, e.target.value,
-      'updated user', updatedUser
-    );
+    // console.log
+    // ('handle change', e.target.name, e.target.value,
+    //   'updated user', updatedUser
+    // );
     setUser(updatedUser);
     // console.log('user', user);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    auth.signIn(user);
+    auth.signIn(user)
+      .then(() =>
+        history.push('/play'));
     console.log(user);
-    history.push('/play')
   };
+
+
 
   return (
     <div>
