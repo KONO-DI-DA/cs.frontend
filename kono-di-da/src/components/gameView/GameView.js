@@ -1,11 +1,13 @@
-import React, {useState, useEffect, useContext} from "react";
-import {UserContext} from '../contexts/UserContext'
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+import axios from 'axios';
+import {axiosWithAuth} from '../../utils/axiosWithAuth';
 import User from "../user/User";
 import Player from "../user/Player";
+import CalendarMap from "../calendar/CalendarMap";
 import "./GameView.scss";
 
 const GameView = () => {
-
 
 const {playerState, setPlayerState} = useContext(UserContext);
 const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -34,15 +36,24 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     e.preventDefault();
     changePlayerLocation();
   };
-
+ 
+  // const getRooms = () => {
+  //       axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
+  //         .then(response => {
+  //           console.log(response);
+  //         });
+  //     }
+  
   window.addEventListener("keydown", changeLocationWithArrows);
+
+
 
   return (
     <div className="game-view">
       <h1>Game View</h1>
-      <User/>
       <Player/>
       <div className="player-view">
+      
         <div className="current-room">
           <p>Current Room</p>
         </div>
@@ -73,6 +84,7 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         </div>
         <div className="map">
           <p>Map</p>
+          <CalendarMap/>
         </div>
       </div>
     </div>
