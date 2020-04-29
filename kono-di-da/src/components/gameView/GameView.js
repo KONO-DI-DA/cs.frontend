@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import React, {useState, useEffect, useContext} from "react";
+import {UserContext} from '../contexts/UserContext'
 import User from "../user/User";
 import Player from "../user/Player";
 import "./GameView.scss";
 
 const GameView = () => {
 
-const {playerState, setPlayerState} = useContext(UserContext)
+
+const {playerState, setPlayerState} = useContext(UserContext);
 const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 
   const changeLocationWithArrows = (e) => {
     if (e.key === "ArrowUp") {
@@ -23,7 +25,7 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const changePlayerLocation = () => {
     console.log(playerState.locationID);
-    const updatedPlayerState = { ...playerState, locationID: locations[8] };
+    const updatedPlayerState = {...playerState, locationID: locations[8]};
     console.log(updatedPlayerState);
     setPlayerState(updatedPlayerState);
   };
@@ -38,8 +40,8 @@ const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <div className="game-view">
       <h1>Game View</h1>
-      <User />
-      <Player />
+      <User/>
+      <Player/>
       <div className="player-view">
         <div className="current-room">
           <p>Current Room</p>

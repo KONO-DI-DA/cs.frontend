@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom'
 import auth from "../../utils/Authentication";
 
 const SignIn = (props) => {
+  const history = useHistory();
+
   const [user, setUser] = useState({
     username: '',
     password: ''
@@ -21,7 +24,7 @@ const SignIn = (props) => {
     e.preventDefault();
     auth.signIn(user);
     console.log(user);
-    props.history.push('/play')
+    history.push('/play')
   };
 
   return (
