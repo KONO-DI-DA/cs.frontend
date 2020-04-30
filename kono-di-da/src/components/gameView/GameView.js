@@ -11,37 +11,60 @@ const GameView = () => {
 
 
   const {playerState, setPlayerState} = useContext(UserContext);
+  const {rooms} = useContext(UserContext);
   const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  // console.log(rooms);
 
 
 //  Logic to set the current_location
 // const [curr_room, setCurrRoom] = useState
 
-  const [rooms, setRooms] = useState([])
+  // const [rooms, setRooms] = useState([]);
+  const [player, setPlayer] = useState({});
 
+  // useEffect(() => {
+  //     axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
+  //       .then(response => {
+  //         console.log('room response', response);
+  //         setRooms(response.data)
+  //       });
+  //   //   axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
+  //   //     .then(response => {
+  //   //       setPlayer(response.data)
+  //   //       setPlayerState({...playerState, location: response.data.room_id})
+  //   //       console.log('playerState in UE', playerState)
+  //   //     });
+  //   }, []
+  // );
 
-  const [player, setPlayer] = useState({})
+  const getRoomName = () => {
+    console.log(rooms);
+    const room = rooms.find(room => room.id === playerState.locationID)
+    console.log('room', room);
+    if (room.name) {
+      setPlayerState({...playerState, location: room.name})
+    }
+  };
 
   useEffect(() => {
-      axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
-        .then(response => {
-          console.log(response);
-          setRooms(response.data)
-        });
-      axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
-        .then(response => {
-          console.log(response);
-          setPlayer(response.data)
-          setPlayerState({...playerState, location: response.data.room_id})
-        });
-    }, []
-  );
+    if (rooms.length) {
+    getRoomName()
+      }
+  },[rooms]);
+
 
   const changePlayerLocation = () => {
-    console.log(playerState.locationID);
+    console.log(playerState);
+
     // const updatedPlayerState = {...playerState, locationID: locations[8]};
     // console.log(updatedPlayerState);
     // setPlayerState(updatedPlayerState);
+  };
+
+  const moveUp = (e) => {
+    e.preventDefault();
+    console.log(playerState);
+    // setPlayerState({playerState, locationID: })
   };
 
   const changeLocation = (e) => {
@@ -49,24 +72,21 @@ const GameView = () => {
     changePlayerLocation();
   };
 
-  let currentLocation = playerState.locationID
-
+  let currentLocation = playerState.locationID;
 
 
   return (
     <div className="game-view">
       <h1>Welcome {playerState.name ? playerState.name : 'Weirdo'}</h1>
       <h1>Game View</h1>
-      {/* <Player/> */}
       <div className="player-view">
-
         <div className="current-room">
           <p>Current Room</p>
         </div>
         <div className="controls">
           <div className="arrows">
             <div className="up">
-              <button onClick={changeLocation} value="up">
+              <button onClick={moveUp} value="up">
                 &#8593;
               </button>
             </div>
