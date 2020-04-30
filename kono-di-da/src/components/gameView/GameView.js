@@ -10,61 +10,72 @@ import "./GameView.scss";
 const GameView = () => {
 
 
-  const {playerState, setPlayerState} = useContext(UserContext);
-  const {rooms} = useContext(UserContext);
-  const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  // console.log(rooms);
+  const {
+    playerState, setPlayerState,
+  } = useContext(UserContext);
 
-
-//  Logic to set the current_location
-// const [curr_room, setCurrRoom] = useState
-
-  // const [rooms, setRooms] = useState([]);
   const [player, setPlayer] = useState({});
-
-  // useEffect(() => {
-  //     axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
-  //       .then(response => {
-  //         console.log('room response', response);
-  //         setRooms(response.data)
-  //       });
-  //   //   axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
-  //   //     .then(response => {
-  //   //       setPlayer(response.data)
-  //   //       setPlayerState({...playerState, location: response.data.room_id})
-  //   //       console.log('playerState in UE', playerState)
-  //   //     });
-  //   }, []
-  // );
-
-  const getRoomName = () => {
-    console.log(rooms);
-    const room = rooms.find(room => room.id === playerState.locationID)
-    console.log('room', room);
-    if (room.name) {
-      setPlayerState({...playerState, location: room.name})
-    }
-  };
-
-  useEffect(() => {
-    if (rooms.length) {
-    getRoomName()
-      }
-  },[rooms]);
-
+  const [rooms, setRooms] = useState([]);
+  const [currentRoom, setCurrentRoom] = useState('');
 
   const changePlayerLocation = () => {
     console.log(playerState);
-
-    // const updatedPlayerState = {...playerState, locationID: locations[8]};
-    // console.log(updatedPlayerState);
-    // setPlayerState(updatedPlayerState);
   };
+
+  useEffect(() => {
+      axiosWithAuth()
+        .get("https://kono-di-da.herokuapp.com/api/room")
+        .then(response => {
+          // console.log('room response', response);
+          console.log(response.data);
+          setRooms(response.data);
+          console.log('rooms', rooms)
+        })
+        // .then((response) => {
+        //   if (rooms && rooms.filter((room) => room.item_id !== 0).length === 0) {
+        //     axiosWithAuth()
+        //       .put('https://kono-di-da.herokuapp.com/api/room/1/',
+        //         {...rooms[0], item_id: 11})
+        //       .then(response => {
+        //         console.log('item assign', response);
+        //       })
+        //       .catch((err) => {
+        //         console.log(err)
+        //       })
+        //   }
+        // });
+      axiosWithAuth()
+        .get("https://kono-di-da.herokuapp.com/api/players")
+        .then(response => {
+          console.log('response 49', response.data[0]);
+          setPlayer(response.data[0])
+          setPlayerState({...playerState, locationID: response.data[0].room_id})
+          // console.log('player 53', player)
+        });
+    }, []
+  );
 
   const moveUp = (e) => {
     e.preventDefault();
-    console.log(playerState);
-    // setPlayerState({playerState, locationID: })
+    console.log('playerState', playerState);
+    console.log('player', player);
+    console.log('move up')
+  };
+  const moveRight = (e) => {
+    e.preventDefault();
+    console.log('move right')
+  };
+
+  const updatePlayerOnServer = () => {
+    axiosWithAuth()
+      .put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`,
+        {...player})
+      .then(response => {
+        console.log('player location update', response);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   };
 
   const changeLocation = (e) => {
@@ -72,8 +83,9 @@ const GameView = () => {
     changePlayerLocation();
   };
 
-  let currentLocation = playerState.locationID;
-
+  let currentLocation = player.room_id;
+  const displayRoom = rooms[currentLocation];
+  console.log('displayRoom', displayRoom);
 
   return (
     <div className="game-view">
@@ -81,7 +93,7 @@ const GameView = () => {
       <h1>Game View</h1>
       <div className="player-view">
         <div className="current-room">
-          <p>Current Room</p>
+          {/*<p>{displayRoom.name}</p>*/}
         </div>
         <div className="controls">
           <div className="arrows">
@@ -94,7 +106,7 @@ const GameView = () => {
               <button onClick={changeLocation} value="left">
                 &#8592;
               </button>
-              <button onClick={changeLocation} value="right">
+              <button onClick={moveRight} value="right">
                 &#8594;
               </button>
             </div>

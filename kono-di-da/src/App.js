@@ -23,45 +23,31 @@ function App() {
     id: ''
   });
 
-  const [rooms, setRooms] = useState([]);
-
-  useEffect(() => {
-      axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
-        .then(response => {
-          console.log('room response', response);
-          setRooms(response.data)
-        });
-      //   axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
-      //     .then(response => {
-      //       setPlayer(response.data)
-      //       setPlayerState({...playerState, location: response.data.room_id})
-      //       console.log('playerState in UE', playerState)
-      //     });
-    }, []
-  );
-
-  useEffect(() => {
-    axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
-      .then(res => {
-        console.log('res in app js',);
-        const dataReturn = res.data[0];
-        setPlayerState({
-          ...playerState,
-          locationID: dataReturn.room_id,
-          name: dataReturn.name,
-          heldItems: dataReturn.item_id,
-          id: dataReturn.id
-        })
-      })
-      .catch(err => console.log(err))
-  }, []);
+  //
+  //
+  //
+  // useEffect(() => {
+  //   axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
+  //     .then(res => {
+  //       // console.log('res in app js',);
+  //       const dataReturn = res.data[0];
+  //       setPlayerState({
+  //         ...playerState,
+  //         locationID: dataReturn.room_id,
+  //         name: dataReturn.name,
+  //         heldItems: dataReturn.item_id,
+  //         id: dataReturn.id
+  //       })
+  //     })
+  //     .catch(err => console.log(err))
+  // }, [currentRoom]);
 
   return (
 
     <div className="App">
       <NavBar/>
       <Route exact path='/' component={LandingPage}/>
-      <UserContext.Provider value={{playerState, setPlayerState, rooms}}>
+      <UserContext.Provider value={{playerState, setPlayerState}}>
         <PrivateRoute exact path='/play' component={GameView}/>
         {/*<Route exact path='/play' component={GameView}/>*/}
         <Route exact path='/team' component={Team}/>
