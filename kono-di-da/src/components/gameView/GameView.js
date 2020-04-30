@@ -28,7 +28,7 @@ const GameView = () => {
           console.log(response);
           setRooms(response.data)
         });
-      axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/player")
+      axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
         .then(response => {
           console.log(response);
           setPlayer(response.data)
@@ -36,23 +36,12 @@ const GameView = () => {
     }, []
   );
 
-  const changeLocationWithArrows = (e) => {
-    if (e.key === "ArrowUp") {
-      console.log("You have moved up");
-    } else if (e.key === "ArrowDown") {
-      console.log("You have moved down");
-    } else if (e.key === "ArrowLeft") {
-      console.log("You have moved left");
-    } else if (e.key === "ArrowRight") {
-      console.log("You have moved right.");
-    }
-  };
 
   const changePlayerLocation = () => {
     console.log(playerState.locationID);
-    const updatedPlayerState = {...playerState, locationID: locations[8]};
-    console.log(updatedPlayerState);
-    setPlayerState(updatedPlayerState);
+    // const updatedPlayerState = {...playerState, locationID: locations[8]};
+    // console.log(updatedPlayerState);
+    // setPlayerState(updatedPlayerState);
   };
 
   const changeLocation = (e) => {
@@ -62,8 +51,6 @@ const GameView = () => {
 
   let currentLocation = 30
 
-
-  window.addEventListener("keydown", changeLocationWithArrows);
 
 
   return (
