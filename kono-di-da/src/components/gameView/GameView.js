@@ -17,8 +17,8 @@ const GameView = () => {
   //  Logic to set the current_location
   // const [curr_room, setCurrRoom] = useState
 
-  const [rooms, setRooms] = useState()
-
+  const [rooms, setRooms] = useState([])
+  const [items, setItems] = useState([])
 
   const [player, setPlayer] = useState({})
   let currentLocation = player.room_id
@@ -26,21 +26,9 @@ const GameView = () => {
     axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
       .then(response => {
         console.log(response);
-        setRooms(response.data)
+        setRooms(response.data.sort((a, b) => a.id - b.id))
         console.log("rooms", rooms)
       })
-      .then((response) => {
-        console.log("sasdaagdfhafhga", response)
-        console.log("rooms", rooms)
-        if (rooms && rooms.filter((room) => room.item_id !== 0).length === 0) {
-          axiosWithAuth().put('https://kono-di-da.herokuapp.com/api/room/1/', { ...rooms[0], item_id: 11 })
-            .then(response => {
-              console.log('item assign', response);
-
-            })
-            .catch((err) => { console.log(err) })
-        }
-      });
 
     axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
       .then(response => {
@@ -48,7 +36,12 @@ const GameView = () => {
         setPlayer(response.data[0])
         setPlayerState({ ...playerState, location: response.data.room_id })
       });
+    axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/items")
+      .then(response => {
+        console.log('item res', response);
+        setItems(response.data)
 
+      })
   }, []
   );
 
@@ -84,15 +77,19 @@ const GameView = () => {
 
   function pickUpItem(e) {
     e.preventDefault()
-    const item = rooms[player.room_id - 1].item_id
-    rooms[player.room_id - 1].item_id = 0
-    axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`, { ...rooms[player.room_id - 1] })
+    let currentRoom = rooms.filter((room) => room.id === player.room_id)[0]
+    console.log('pickup var', currentRoom)
+    const item = currentRoom.item_id
+    let otherRooms = rooms.filter((room) => room.id !== player.room_id)
+    setRooms([...otherRooms, { ...currentRoom, item_id: 0 }])
+    setRooms(rooms.sort((a, b) => a.id - b.id))
+    axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`, { ...currentRoom, item_id: 0 })
       .then(response => {
         console.log('item assign', response);
 
       })
       .catch((err) => { console.log(err) })
-    player.item_id = item
+    setPlayer({ ...player, item_id: item })
     axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`, { ...player })
       .then(response => {
         console.log('item assign', response);
@@ -104,15 +101,18 @@ const GameView = () => {
 
   function dropItem(e) {
     e.preventDefault()
+    let currentRoom = rooms.filter((room) => room.id === player.room_id)[0]
     const item = player.item_id
-    rooms[player.room_id - 1].item_id = item
-    axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`, { ...rooms[player.room_id - 1] })
+    let otherRooms = rooms.filter((room) => room.id !== player.room_id)
+    setRooms([...otherRooms, { ...currentRoom, item_id: item }])
+    setRooms(rooms.sort((a, b) => a.id - b.id))
+    axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`, { ...currentRoom, item_id: item })
       .then(response => {
         console.log('item assign', response);
 
       })
       .catch((err) => { console.log(err) })
-    player.item_id = 0
+    setPlayer({ ...player, item_id: 0 })
     axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`, { ...player })
       .then(response => {
         console.log('item assign', response);
@@ -129,7 +129,7 @@ const GameView = () => {
     <div className="game-view">
       <h1>Welcome {playerState.name ? playerState.name : 'Weirdo'}</h1>
       <h1>Game View</h1>
-      {/* <Player/> */}
+      <Player player={player} rooms={rooms} items={items} />
       <div className="player-view">
 
         <div className="current-room">
