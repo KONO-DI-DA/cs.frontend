@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
-import {UserContext} from "../contexts/UserContext";
+import {UserContext} from '../../contexts/UserContext';
 import axios from 'axios';
 import {axiosWithAuth} from '../../utils/axiosWithAuth';
 import User from "../user/User";
@@ -28,10 +28,11 @@ const GameView = () => {
           console.log(response);
           setRooms(response.data)
         });
-      axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/player")
+      axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
         .then(response => {
           console.log(response);
           setPlayer(response.data)
+          setPlayerState({...playerState, location: response.data.room_id})
         });
     }, []
   );
@@ -39,20 +40,25 @@ const GameView = () => {
   const changeLocationWithArrows = (e) => {
     if (e.key === "ArrowUp") {
       console.log("You have moved up");
+      changePlayerLocation(2)
     } else if (e.key === "ArrowDown") {
       console.log("You have moved down");
+      changePlayerLocation(10)
     } else if (e.key === "ArrowLeft") {
       console.log("You have moved left");
+      changePlayerLocation(5)
     } else if (e.key === "ArrowRight") {
       console.log("You have moved right.");
+      changePlayerLocation(7)
     }
   };
 
-  const changePlayerLocation = () => {
-    console.log(playerState.locationID);
-    const updatedPlayerState = {...playerState, locationID: locations[8]};
-    console.log(updatedPlayerState);
+  const changePlayerLocation = (newLocation) => {
+    console.log('player location id', playerState.locationID);
+    const updatedPlayerState = {...playerState, locationID: newLocation};
+    console.log('updated player state', updatedPlayerState);
     setPlayerState(updatedPlayerState);
+    console.log('userContext', UserContext)
   };
 
   const changeLocation = (e) => {
@@ -60,7 +66,7 @@ const GameView = () => {
     changePlayerLocation();
   };
 
-  let currentLocation = 30
+  let currentLocation = playerState.locationID
 
 
   window.addEventListener("keydown", changeLocationWithArrows);
@@ -68,6 +74,7 @@ const GameView = () => {
 
   return (
     <div className="game-view">
+      <h1>Welcome {playerState.name ? playerState.name : 'Weirdo'}</h1>
       <h1>Game View</h1>
       {/* <Player/> */}
       <div className="player-view">
