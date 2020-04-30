@@ -12,9 +12,7 @@ function Player(props) {
       <div className="player-stats">
         <div className="player-stats-left">
           <p>Player Name: {props.player.name}</p>
-          <p>Current Location: {props.rooms.filter((room) => props.player.room_id === room.id).map((room) => {
-            return <p>{room.name}</p>
-          })}</p>
+
           <p>Items Held: {props.items.filter((item) => props.player.item_id === item.id).map((item) => {
             return <p>{item.name}</p>
           })}</p>
