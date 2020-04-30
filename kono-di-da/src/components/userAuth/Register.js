@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 import auth from '../../utils/Authentication'
 
 const Register = (props) => {
+  const history = useHistory();
+  
   const [user, setUser] = useState({
     username: '',
     email: '',
@@ -17,9 +19,11 @@ const Register = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    auth.register(user);
+    auth.register(user)
+      .then(() => 
+        history.push('/play')
+      )
     console.log(user)
-    props.history.push('/sign-in')
   };
 
   return (
