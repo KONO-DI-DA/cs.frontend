@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
-import {UserContext} from "../contexts/UserContext";
+import {UserContext} from '../../contexts/UserContext';
 import axios from 'axios';
 import {axiosWithAuth} from '../../utils/axiosWithAuth';
 import User from "../user/User";
@@ -32,10 +32,10 @@ const GameView = () => {
         .then(response => {
           console.log(response);
           setPlayer(response.data)
+          setPlayerState({...playerState, location: response.data.room_id})
         });
     }, []
   );
-
 
   const changePlayerLocation = () => {
     console.log(playerState.locationID);
@@ -49,12 +49,13 @@ const GameView = () => {
     changePlayerLocation();
   };
 
-  let currentLocation = 30
+  let currentLocation = playerState.locationID
 
 
 
   return (
     <div className="game-view">
+      <h1>Welcome {playerState.name ? playerState.name : 'Weirdo'}</h1>
       <h1>Game View</h1>
       {/* <Player/> */}
       <div className="player-view">
