@@ -27,7 +27,7 @@ const GameView = () => {
         .get("https://kono-di-da.herokuapp.com/api/room")
         .then(response => {
           // console.log('room response', response);
-          console.log(response.data);
+          // console.log(response.data);
           setRooms(response.data.sort((a, b) => a.id - b.id))
           // console.log('rooms', rooms)
         })
@@ -47,10 +47,10 @@ const GameView = () => {
       axiosWithAuth()
         .get("https://kono-di-da.herokuapp.com/api/players")
         .then(response => {
-          console.log('response 49', response.data[0]);
+          // console.log('response 49', response.data[0]);
           setPlayer(response.data[0])
           // setPlayerState({...playerState, locationID: response.data[0].room_id})
-          console.log('player 53', player)
+          // console.log('player 53', player)
         });
     }, []
   );
@@ -114,7 +114,6 @@ const GameView = () => {
     console.log('move left')
   };
 
-
   const moveRight = (e) => {
     e.preventDefault();
     axiosWithAuth()
@@ -127,6 +126,33 @@ const GameView = () => {
       });
     console.log('move right')
   };
+
+  const moveOutside = (e) => {
+    e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.outside_id !== 0) {
+          setPlayer({...player, room_id: res.data.outside_id});
+          updatePlayerLocation()
+        }
+      });
+    // console.log('Move down')
+  };
+
+  const moveInside = (e) => {
+    e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.inside_id !== 0) {
+          setPlayer({...player, room_id: res.data.inside_id});
+          updatePlayerLocation()
+        }
+      });
+    // console.log('Move down')
+  };
+
 
   const updatePlayerOnServer = () => {
     axiosWithAuth()
@@ -179,9 +205,10 @@ const GameView = () => {
               </button>
             </div>
           </div>
-          {/*<div className='enter'>*/}
-          {/*  <button>Confirm</button>*/}
-          {/*</div>*/}
+          <div className='inside-outside'>
+            <button onClick={moveInside}>Move Inside</button>
+            <button onClick={moveOutside}>Move Outside</button>
+          </div>
         </div>
         <div className="map">
           <p>Map</p>
