@@ -4,22 +4,30 @@ import auth from '../../utils/Authentication'
 
 const Register = (props) => {
   const history = useHistory();
-  
+
   const [user, setUser] = useState({
     username: '',
     email: '',
     password: ''
   });
 
+  const [player, setPlayer] = useState({
+    name: '',
+    room_id: 1,
+    item_id: 0
+  })
+
   const handleChange = (e) => {
     const updatedUser = {...user, [e.target.name]: e.target.value};
     setUser(updatedUser);
-    // console.log('user', user);
+    setPlayer({...player, 'name': user.username})
+    console.log('user', user);
+    console.log('player', player)
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    auth.register(user)
+    auth.register(user, player)
       .then(() => 
         history.push('/play')
       )

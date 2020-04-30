@@ -1,14 +1,16 @@
 import React from 'react';
-import {Link, Route} from 'react-router-dom'
+import {Link, Route, useHistory} from 'react-router-dom'
 import auth from '../../utils/Authentication'
 
 const LandingPage = () => {
+  const history = useHistory();
 
   const logOut = (e) => {
     e.preventDefault();
     auth.logOut();
     localStorage.removeItem('token');
     console.log('Logged out')
+    history.push('/sign-in')
   };
 
   return (
