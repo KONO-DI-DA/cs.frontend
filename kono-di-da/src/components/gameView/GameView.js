@@ -28,41 +28,103 @@ const GameView = () => {
         .then(response => {
           // console.log('room response', response);
           console.log(response.data);
-          setRooms(response.data);
-          console.log('rooms', rooms)
+          setRooms(response.data.sort((a, b) => a.id - b.id))
+          // console.log('rooms', rooms)
         })
-        // .then((response) => {
-        //   if (rooms && rooms.filter((room) => room.item_id !== 0).length === 0) {
-        //     axiosWithAuth()
-        //       .put('https://kono-di-da.herokuapp.com/api/room/1/',
-        //         {...rooms[0], item_id: 11})
-        //       .then(response => {
-        //         console.log('item assign', response);
-        //       })
-        //       .catch((err) => {
-        //         console.log(err)
-        //       })
-        //   }
-        // });
+      // .then((response) => {
+      //   if (rooms && rooms.filter((room) => room.item_id !== 0).length === 0) {
+      //     axiosWithAuth()
+      //       .put('https://kono-di-da.herokuapp.com/api/room/1/',
+      //         {...rooms[0], item_id: 11})
+      //       .then(response => {
+      //         console.log('item assign', response);
+      //       })
+      //       .catch((err) => {
+      //         console.log(err)
+      //       })
+      //   }
+      // });
       axiosWithAuth()
         .get("https://kono-di-da.herokuapp.com/api/players")
         .then(response => {
           console.log('response 49', response.data[0]);
           setPlayer(response.data[0])
-          setPlayerState({...playerState, locationID: response.data[0].room_id})
-          // console.log('player 53', player)
+          // setPlayerState({...playerState, locationID: response.data[0].room_id})
+          console.log('player 53', player)
         });
     }, []
   );
 
+  const getCurrentRoom = () => {
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        console.log('res from room call', res.data.right_id)
+      })
+  };
+
+  const updatePlayerLocation = () => {
+    axiosWithAuth()
+      .put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`,
+        {...player})
+      .then(response => {
+        console.log('player updated', response);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  };
+
   const moveUp = (e) => {
     e.preventDefault();
-    console.log('playerState', playerState);
-    console.log('player', player);
-    console.log('move up')
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.up_id !== 0) {
+          setPlayer({...player, room_id: res.data.up_id});
+          updatePlayerLocation()
+        }
+      });
+    console.log('Move up')
   };
+
+  const moveDown = (e) => {
+    e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.down_id !== 0) {
+          setPlayer({...player, room_id: res.data.down_id});
+          updatePlayerLocation()
+        }
+      });
+    console.log('Move down')
+  };
+
+  const moveLeft = (e) => {
+    e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.left_id !== 0) {
+          setPlayer({...player, room_id: res.data.left_id});
+          updatePlayerLocation()
+        }
+      });
+    console.log('move left')
+  };
+
+
   const moveRight = (e) => {
     e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.right_id !== 0) {
+          setPlayer({...player, room_id: res.data.right_id});
+          updatePlayerLocation()
+        }
+      });
     console.log('move right')
   };
 
@@ -84,8 +146,7 @@ const GameView = () => {
   };
 
   let currentLocation = player.room_id;
-  const displayRoom = rooms[currentLocation];
-  console.log('displayRoom', displayRoom);
+
 
   return (
     <div className="game-view">
@@ -93,7 +154,9 @@ const GameView = () => {
       <h1>Game View</h1>
       <div className="player-view">
         <div className="current-room">
-          {/*<p>{displayRoom.name}</p>*/}
+          <p>{rooms.filter((room) => player.room_id === room.id).map((room) => {
+            return <p>{room.name}</p>
+          })}</p>
         </div>
         <div className="controls">
           <div className="arrows">
@@ -103,7 +166,7 @@ const GameView = () => {
               </button>
             </div>
             <div className="left-and-right">
-              <button onClick={changeLocation} value="left">
+              <button onClick={moveLeft} value="left">
                 &#8592;
               </button>
               <button onClick={moveRight} value="right">
@@ -111,7 +174,7 @@ const GameView = () => {
               </button>
             </div>
             <div className="down">
-              <button onClick={changeLocation} value="down">
+              <button onClick={moveDown} value="down">
                 &#8595;
               </button>
             </div>
