@@ -10,17 +10,24 @@ import "./GameView.scss";
 const GameView = () => {
 
 
-  const { playerState, setPlayerState } = useContext(UserContext);
-  const locations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const {
+    playerState, setPlayerState,
+  } = useContext(UserContext);
+
+
+  const [player, setPlayer] = useState({});
+  const [rooms, setRooms] = useState([]);
+  const [currentRoom, setCurrentRoom] = useState('');
 
 
   //  Logic to set the current_location
   // const [curr_room, setCurrRoom] = useState
 
-  const [rooms, setRooms] = useState([])
+  
   const [items, setItems] = useState([])
 
-  const [player, setPlayer] = useState({})
+ 
   let currentLocation = player.room_id
   useEffect(() => {
     axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
@@ -43,35 +50,108 @@ const GameView = () => {
 
       })
   }, []
+
   );
 
-  const changeLocationWithArrows = (e) => {
-    if (e.key === "ArrowUp") {
-      console.log("You have moved up");
-      changePlayerLocation(2)
-    } else if (e.key === "ArrowDown") {
-      console.log("You have moved down");
-      changePlayerLocation(10)
-    } else if (e.key === "ArrowLeft") {
-      console.log("You have moved left");
-      changePlayerLocation(5)
-    } else if (e.key === "ArrowRight") {
-      console.log("You have moved right.");
-      changePlayerLocation(7)
-    }
+  const getCurrentRoom = () => {
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        console.log('res from room call', res.data.right_id)
+      })
   };
 
-  const changePlayerLocation = (newLocation) => {
-    console.log('player location id', playerState.locationID);
-    const updatedPlayerState = { ...playerState, locationID: newLocation };
-    console.log('updated player state', updatedPlayerState);
-    setPlayerState(updatedPlayerState);
-    console.log('userContext', UserContext)
+
+  const updatePlayerLocation = () => {
+    axiosWithAuth()
+      .put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`,
+        {...player})
+      .then(response => {
+        console.log('player updated', response);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
   };
 
-  const changeLocation = (e) => {
+  const moveUp = (e) => {
     e.preventDefault();
-    changePlayerLocation();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.up_id !== 0) {
+          setPlayer({...player, room_id: res.data.up_id});
+          updatePlayerLocation()
+        }
+      });
+    console.log('Move up')
+  };
+
+  const moveDown = (e) => {
+    e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.down_id !== 0) {
+          setPlayer({...player, room_id: res.data.down_id});
+          updatePlayerLocation()
+        }
+      });
+    console.log('Move down')
+  };
+
+  const moveLeft = (e) => {
+    e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.left_id !== 0) {
+          setPlayer({...player, room_id: res.data.left_id});
+          updatePlayerLocation()
+        }
+      });
+    console.log('move left')
+  };
+
+  const moveRight = (e) => {
+    e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.right_id !== 0) {
+          setPlayer({...player, room_id: res.data.right_id});
+          updatePlayerLocation()
+        }
+      });
+    console.log('move right')
+  };
+
+
+  const moveOutside = (e) => {
+    e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.outside_id !== 0) {
+          setPlayer({...player, room_id: res.data.outside_id});
+          updatePlayerLocation()
+        }
+      });
+    // console.log('Move down')
+  };
+
+  const moveInside = (e) => {
+    e.preventDefault();
+    axiosWithAuth()
+      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
+      .then(res => {
+        if (res.data.inside_id !== 0) {
+          setPlayer({...player, room_id: res.data.inside_id});
+          updatePlayerLocation()
+        }
+      });
+    // console.log('Move down')
   };
 
 
@@ -122,18 +202,40 @@ const GameView = () => {
 
   }
 
-  window.addEventListener("keydown", changeLocationWithArrows);
+
+
+  const updatePlayerOnServer = () => {
+    axiosWithAuth()
+      .put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`,
+        {...player})
+      .then(response => {
+        console.log('player location update', response);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  };
+
+  const changeLocation = (e) => {
+    e.preventDefault();
+    changePlayerLocation();
+  };
+
+  let currentLocation = player.room_id;
 
 
   return (
     <div className="game-view">
       <h1>Welcome {playerState.name ? playerState.name : 'Weirdo'}</h1>
       <h1>Game View</h1>
-      <Player player={player} rooms={rooms} items={items} />
-      <div className="player-view">
 
+      <Player player={player} rooms={rooms} items={items} />
+
+      <div className="player-view">
         <div className="current-room">
-          <p>Current Room</p>
+          <p>{rooms.filter((room) => player.room_id === room.id).map((room) => {
+            return <p>{room.name}</p>
+          })}</p>
         </div>
         <div className="controls">
           <div >
@@ -146,27 +248,28 @@ const GameView = () => {
           </div>
           <div className="arrows">
             <div className="up">
-              <button onClick={changeLocation} value="up">
+              <button onClick={moveUp} value="up">
                 &#8593;
               </button>
             </div>
             <div className="left-and-right">
-              <button onClick={changeLocation} value="left">
+              <button onClick={moveLeft} value="left">
                 &#8592;
               </button>
-              <button onClick={changeLocation} value="right">
+              <button onClick={moveRight} value="right">
                 &#8594;
               </button>
             </div>
             <div className="down">
-              <button onClick={changeLocation} value="down">
+              <button onClick={moveDown} value="down">
                 &#8595;
               </button>
             </div>
           </div>
-          {/*<div className='enter'>*/}
-          {/*  <button>Confirm</button>*/}
-          {/*</div>*/}
+          <div className='inside-outside'>
+            <button onClick={moveInside}>Move Inside</button>
+            <button onClick={moveOutside}>Move Outside</button>
+          </div>
         </div>
         <div className="map">
           <p>Map</p>

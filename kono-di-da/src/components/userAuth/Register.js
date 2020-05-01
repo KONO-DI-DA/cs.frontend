@@ -15,14 +15,14 @@ const Register = (props) => {
     name: '',
     room_id: 1,
     item_id: 0
-  })
+  });
 
   const handleChange = (e) => {
     const updatedUser = {...user, [e.target.name]: e.target.value};
     setUser(updatedUser);
-    setPlayer({...player, 'name': user.username})
-    console.log('user', user);
-    console.log('player', player)
+    setPlayer({...player, 'name': user.username});
+    // console.log('user', user);
+    // console.log('player', player)
   };
 
   const handleSubmit = (e) => {

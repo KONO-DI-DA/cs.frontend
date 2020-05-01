@@ -9,8 +9,7 @@ import NavBar from "./components/navBar/NavBar";
 import SignIn from "./components/userAuth/SignIn";
 import Register from "./components/userAuth/Register";
 import PrivateRoute from "./utils/PrivateRoute";
-import { axiosWithAuth } from './utils/axiosWithAuth';
-
+import {axiosWithAuth} from './utils/axiosWithAuth';
 
 
 function App() {
@@ -18,28 +17,30 @@ function App() {
 
   const [playerState, setPlayerState] = useState({
     location: '',
-    locationID: 6,
-    heldItems: 0,
-    name: 'Unknown',
-    id: 0
-  })
+    locationID: '',
+    heldItems: '',
+    name: '',
+    id: ''
+  });
 
-  useEffect(() => {
-    axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
-      .then(res => {
-        console.log('res in app js', res);
-      })
-      .catch(err => console.log(err))
-  }, [])
-
-  // const [playerState, setPlayerState] = useState({
-  //   location: "January 1-4",
-  //   locationID: locations[1],
-  //   heldItems: ["Party Hat", "Wrench", "Very Small Rock"],
-  //   name: "Jeff",
-  //   id: 12,
-  // });
-
+  //
+  //
+  //
+  // useEffect(() => {
+  //   axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
+  //     .then(res => {
+  //       // console.log('res in app js',);
+  //       const dataReturn = res.data[0];
+  //       setPlayerState({
+  //         ...playerState,
+  //         locationID: dataReturn.room_id,
+  //         name: dataReturn.name,
+  //         heldItems: dataReturn.item_id,
+  //         id: dataReturn.id
+  //       })
+  //     })
+  //     .catch(err => console.log(err))
+  // }, [currentRoom]);
 
   return (
 
