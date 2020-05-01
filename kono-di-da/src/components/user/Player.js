@@ -2,8 +2,6 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 function Player(props) {
-
-  console.log("room in player", props.rooms)
   const { playerState, setPlayerState } = useContext(UserContext)
 
   return (
