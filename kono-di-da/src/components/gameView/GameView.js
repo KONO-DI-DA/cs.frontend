@@ -133,7 +133,12 @@ const GameView = () => {
       <div className="player-view">
 
         <div className="current-room">
-          <p>Current Room</p>
+          {rooms.filter((room) => player.room_id === room.id).map((room) => {
+            return <p>{room.name}</p>
+          })}
+          <p>Items in Room: {items.filter((item) => player.item_id === item.id).map((item) => {
+            return <p>{item.name}</p>
+          })}</p>
         </div>
         <div className="controls">
           <div >
