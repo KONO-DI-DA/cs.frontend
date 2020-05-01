@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useContext} from "react";
-import {UserContext} from '../../contexts/UserContext';
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from '../../contexts/UserContext';
 import axios from 'axios';
-import {axiosWithAuth} from '../../utils/axiosWithAuth';
+import { axiosWithAuth } from '../../utils/axiosWithAuth';
 import User from "../user/User";
 import Player from "../user/Player";
 import CalendarMap from "../calendar/CalendarMap";
@@ -10,49 +10,47 @@ import "./GameView.scss";
 const GameView = () => {
 
 
+
   const {
     playerState, setPlayerState,
   } = useContext(UserContext);
+
 
   const [player, setPlayer] = useState({});
   const [rooms, setRooms] = useState([]);
   const [currentRoom, setCurrentRoom] = useState('');
 
-  const changePlayerLocation = () => {
-    console.log(playerState);
-  };
 
+  //  Logic to set the current_location
+  // const [curr_room, setCurrRoom] = useState
+
+  
+  const [items, setItems] = useState([])
+
+ 
+  let currentLocation = player.room_id
   useEffect(() => {
-      axiosWithAuth()
-        .get("https://kono-di-da.herokuapp.com/api/room")
-        .then(response => {
-          // console.log('room response', response);
-          // console.log(response.data);
-          setRooms(response.data.sort((a, b) => a.id - b.id))
-          // console.log('rooms', rooms)
-        })
-      // .then((response) => {
-      //   if (rooms && rooms.filter((room) => room.item_id !== 0).length === 0) {
-      //     axiosWithAuth()
-      //       .put('https://kono-di-da.herokuapp.com/api/room/1/',
-      //         {...rooms[0], item_id: 11})
-      //       .then(response => {
-      //         console.log('item assign', response);
-      //       })
-      //       .catch((err) => {
-      //         console.log(err)
-      //       })
-      //   }
-      // });
-      axiosWithAuth()
-        .get("https://kono-di-da.herokuapp.com/api/players")
-        .then(response => {
-          // console.log('response 49', response.data[0]);
-          setPlayer(response.data[0])
-          // setPlayerState({...playerState, locationID: response.data[0].room_id})
-          // console.log('player 53', player)
-        });
-    }, []
+    axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
+      .then(response => {
+        console.log(response);
+        setRooms(response.data.sort((a, b) => a.id - b.id))
+        console.log("rooms", rooms)
+      })
+
+    axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/players")
+      .then(response => {
+        console.log(response);
+        setPlayer(response.data[0])
+        setPlayerState({ ...playerState, location: response.data.room_id })
+      });
+    axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/items")
+      .then(response => {
+        console.log('item res', response);
+        setItems(response.data)
+
+      })
+  }, []
+
   );
 
   const getCurrentRoom = () => {
@@ -62,6 +60,7 @@ const GameView = () => {
         console.log('res from room call', res.data.right_id)
       })
   };
+
 
   const updatePlayerLocation = () => {
     axiosWithAuth()
@@ -73,6 +72,7 @@ const GameView = () => {
       .catch((err) => {
         console.log(err)
       })
+
   };
 
   const moveUp = (e) => {
@@ -127,6 +127,7 @@ const GameView = () => {
     console.log('move right')
   };
 
+
   const moveOutside = (e) => {
     e.preventDefault();
     axiosWithAuth()
@@ -154,6 +155,55 @@ const GameView = () => {
   };
 
 
+  function pickUpItem(e) {
+    e.preventDefault()
+    let currentRoom = rooms.filter((room) => room.id === player.room_id)[0]
+    console.log('pickup var', currentRoom)
+    const item = currentRoom.item_id
+    let otherRooms = rooms.filter((room) => room.id !== player.room_id)
+    setRooms([...otherRooms, { ...currentRoom, item_id: 0 }])
+    setRooms(rooms.sort((a, b) => a.id - b.id))
+    axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`, { ...currentRoom, item_id: 0 })
+      .then(response => {
+        console.log('item assign', response);
+
+      })
+      .catch((err) => { console.log(err) })
+    setPlayer({ ...player, item_id: item })
+    axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`, { ...player })
+      .then(response => {
+        console.log('item assign', response);
+
+      })
+      .catch((err) => { console.log(err) })
+
+  }
+
+  function dropItem(e) {
+    e.preventDefault()
+    let currentRoom = rooms.filter((room) => room.id === player.room_id)[0]
+    const item = player.item_id
+    let otherRooms = rooms.filter((room) => room.id !== player.room_id)
+    setRooms([...otherRooms, { ...currentRoom, item_id: item }])
+    setRooms(rooms.sort((a, b) => a.id - b.id))
+    axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`, { ...currentRoom, item_id: item })
+      .then(response => {
+        console.log('item assign', response);
+
+      })
+      .catch((err) => { console.log(err) })
+    setPlayer({ ...player, item_id: 0 })
+    axiosWithAuth().put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`, { ...player })
+      .then(response => {
+        console.log('item assign', response);
+
+      })
+      .catch((err) => { console.log(err) })
+
+  }
+
+
+
   const updatePlayerOnServer = () => {
     axiosWithAuth()
       .put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`,
@@ -178,6 +228,9 @@ const GameView = () => {
     <div className="game-view">
       <h1>Welcome {playerState.name ? playerState.name : 'Weirdo'}</h1>
       <h1>Game View</h1>
+
+      <Player player={player} rooms={rooms} items={items} />
+
       <div className="player-view">
         <div className="current-room">
           <p>{rooms.filter((room) => player.room_id === room.id).map((room) => {
@@ -185,6 +238,14 @@ const GameView = () => {
           })}</p>
         </div>
         <div className="controls">
+          <div >
+            <button onClick={pickUpItem} >
+              pick up item
+              </button>
+            <button onClick={dropItem} >
+              drop item
+              </button>
+          </div>
           <div className="arrows">
             <div className="up">
               <button onClick={moveUp} value="up">
@@ -212,7 +273,7 @@ const GameView = () => {
         </div>
         <div className="map">
           <p>Map</p>
-          <CalendarMap currentLocation={currentLocation} rooms={rooms} player={player}/>
+          <CalendarMap currentLocation={currentLocation} rooms={rooms} player={player} />
         </div>
       </div>
     </div>
