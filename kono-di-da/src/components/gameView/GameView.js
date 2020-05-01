@@ -224,11 +224,19 @@ const GameView = () => {
   };
 
   const formatRoom = (room) => {
-    if (room.name.includes("Jan" || "Feb" || "Dec")) {
+    if (
+      room.name.includes("Dec") ||
+      room.name.includes("Feb") ||
+      room.name.includes("Jan")
+    ) {
       return "current-room-Winter";
-    } else if (room.name.includes("Mar" || "Apr" || "May")) {
+    } else if (
+      room.name.includes("Mar") ||
+      room.name.includes("Apr") ||
+      room.name.includes("May")
+    ) {
       return "current-room-Spring";
-    } else if (room.name.includes("Jun" || "Jul")) {
+    } else if (room.name.includes("Jun") || room.name.includes("Jul")) {
       return "current-room-Summer";
     } else return "current-room-Fall";
   };
