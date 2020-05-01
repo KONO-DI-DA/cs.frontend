@@ -24,10 +24,10 @@ const GameView = () => {
   //  Logic to set the current_location
   // const [curr_room, setCurrRoom] = useState
 
-  
+
   const [items, setItems] = useState([])
 
- 
+
   let currentLocation = player.room_id
   useEffect(() => {
     axiosWithAuth().get("https://kono-di-da.herokuapp.com/api/room")
@@ -65,7 +65,7 @@ const GameView = () => {
   const updatePlayerLocation = () => {
     axiosWithAuth()
       .put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`,
-        {...player})
+        { ...player })
       .then(response => {
         console.log('player updated', response);
       })
@@ -81,7 +81,7 @@ const GameView = () => {
       .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
       .then(res => {
         if (res.data.up_id !== 0) {
-          setPlayer({...player, room_id: res.data.up_id});
+          setPlayer({ ...player, room_id: res.data.up_id });
           updatePlayerLocation()
         }
       });
@@ -94,7 +94,7 @@ const GameView = () => {
       .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
       .then(res => {
         if (res.data.down_id !== 0) {
-          setPlayer({...player, room_id: res.data.down_id});
+          setPlayer({ ...player, room_id: res.data.down_id });
           updatePlayerLocation()
         }
       });
@@ -107,7 +107,7 @@ const GameView = () => {
       .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
       .then(res => {
         if (res.data.left_id !== 0) {
-          setPlayer({...player, room_id: res.data.left_id});
+          setPlayer({ ...player, room_id: res.data.left_id });
           updatePlayerLocation()
         }
       });
@@ -120,7 +120,7 @@ const GameView = () => {
       .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
       .then(res => {
         if (res.data.right_id !== 0) {
-          setPlayer({...player, room_id: res.data.right_id});
+          setPlayer({ ...player, room_id: res.data.right_id });
           updatePlayerLocation()
         }
       });
@@ -134,7 +134,7 @@ const GameView = () => {
       .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
       .then(res => {
         if (res.data.outside_id !== 0) {
-          setPlayer({...player, room_id: res.data.outside_id});
+          setPlayer({ ...player, room_id: res.data.outside_id });
           updatePlayerLocation()
         }
       });
@@ -147,7 +147,7 @@ const GameView = () => {
       .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
       .then(res => {
         if (res.data.inside_id !== 0) {
-          setPlayer({...player, room_id: res.data.inside_id});
+          setPlayer({ ...player, room_id: res.data.inside_id });
           updatePlayerLocation()
         }
       });
@@ -207,7 +207,7 @@ const GameView = () => {
   const updatePlayerOnServer = () => {
     axiosWithAuth()
       .put(`https://kono-di-da.herokuapp.com/api/players/${player.id}/`,
-        {...player})
+        { ...player })
       .then(response => {
         console.log('player location update', response);
       })
@@ -218,10 +218,10 @@ const GameView = () => {
 
   const changeLocation = (e) => {
     e.preventDefault();
-    changePlayerLocation();
+
   };
 
-  let currentLocation = player.room_id;
+
 
 
   return (
