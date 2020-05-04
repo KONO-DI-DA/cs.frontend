@@ -1,18 +1,7 @@
-import React, { useState } from "react";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import React from "react";
 
-function User(props) {
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-  });
-  return (
-    <div className="profile">
-     
-    </div>
-  );
+function User() {
+  return <div className="profile"></div>;
 }
 
 export default User;
-

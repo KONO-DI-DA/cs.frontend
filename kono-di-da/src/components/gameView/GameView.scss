@@ -1,93 +1,130 @@
 .player-stats {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  //border: 1px solid black;
-  .player-stats-left {
-    //border: 1px solid black;
-  }
-
-  .player-stats-right {
-    //border: 1px solid black;
-  }
+  justify-content: space-evenly;
+  padding-right: 50px;
+  padding-left: 50px;
+  color: white;
+  font-size: 20px;
+  text-shadow: 1px 1px 0.5px black;
+  background-color: black;
+  opacity: 50%;
+  border-radius: 5px;
 }
 
 .player-view {
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-
-  .current-room {
-    border: 1px solid black;
-    height: 450px;
-    width: 500px;
-  }
-
+  width: 100%;
   .current-room-Spring {
-    border: 1px solid black;
-    height: 450px;
-    width: 500px;
+    width: 100%;
+    height: 1000px;
     background-color: greenyellow;
+    background-image: url("../images/inside.jpg");
+    background-size: cover;
+    background-repeat: repeat-y;
+  }
+  .current-room-Spring-out {
+    width: 100%;
+    height: 1000px;
+    background-color: greenyellow;
+    background-image: url("../images/spring2.jpg");
+    background-size: cover;
   }
 
   .current-room-Winter {
-    border: 1px solid black;
-    height: 450px;
-    width: 500px;
-    background-color: lightblue;
+    background-color: rgb(81, 181, 214);
+    width: 100%;
+    height: 1000px;
+    background-image: url("../images/winterin.jpg");
+    background-size: cover;
+  }
+  .current-room-Winter-out {
+    background-color: rgb(81, 181, 214);
+    width: 100%;
+    height: 1000px;
+    background-image: url("../images/winter3.jpg");
+    background-size: cover;
   }
 
   .current-room-Fall {
-    border: 1px solid black;
-    height: 450px;
-    width: 500px;
     background-color: darkorange;
+    width: 100%;
+    height: 1000px;
+    background-image: url("../images/springin1.jpg");
+    background-size: cover;
+  }
+
+  .current-room-Fall-out {
+    background-color: darkorange;
+    width: 100%;
+    height: 1000px;
+    background-image: url("../images/fallout1.jpg");
+    background-size: cover;
   }
 
   .current-room-Summer {
-    border: 1px solid black;
-    height: 450px;
-    width: 500px;
+    width: 100%;
+    height: 1000px;
     background-color: lime;
+    background-image: url("../images/summerin3.jpg");
+    background-size: cover;
+    background-repeat: none;
+  }
+
+  .current-room-Summer-out {
+    width: 100%;
+    height: 1000px;
+    background-color: lime;
+    background-image: url("../images/spring3.jpg");
+    background-size: cover;
+    background-repeat: none;
   }
 
   .map {
-    max-height: 500px;
-    width: 500px;
-  }
-
-  .map-summer {
-    border: 1px solid black;
-    height: 450px;
-    width: 500px;
-    background-color: lime;
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
   }
 
   .controls {
     margin: auto 0;
-    //border: 1px solid black;
-    .arrows {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 100px;
+    width: 100%;
 
-      p {
-        margin: 0;
-        font-size: 50px;
-      }
+    button {
+      margin: 0 auto;
+      padding: 10px;
+      height: 2%;
+      opacity: 70%;
+      margin: 2px;
+      border-radius: 50px;
+      box-shadow: 2px 2px 20px black;
+      background-color: black;
+      color: white;
+      font-size: 15px;
     }
+  }
 
-    .left-and-right {
-      display: flex;
-      flex-direction: row;
+  ::-webkit-scrollbar {
+    width: 50px;
+    padding: 10px;
+  }
 
-      p {
-        padding: 0 10px 0 10px;
-      }
-    }
-    .inside-outside {
-      display: flex;
-      flex-direction: column;
-      border: 1px solid black;
-    }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px whitesmoke;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: orangered;
+    border-radius: 10px;
   }
 }
