@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-import axios from "axios";
+import auth from "../../utils/Authentication";
 import { axiosWithAuth } from "../../utils/axiosWithAuth";
-import User from "../user/User";
 import Player from "../user/Player";
 import CalendarMap from "../calendar/CalendarMap";
 import "./GameView.scss";
@@ -12,14 +11,16 @@ const GameView = () => {
 
   const [player, setPlayer] = useState({});
   const [rooms, setRooms] = useState([]);
-  const [currentRoom, setCurrentRoom] = useState("");
 
   //  Logic to set the current_location
   // const [curr_room, setCurrRoom] = useState
 
   const [items, setItems] = useState([]);
 
+  // SET CURRENT LOCATION TO PLAYER'S ROOM ID
   let currentLocation = player.room_id;
+
+  // GETS ROOMS, SETS ROOMS
   useEffect(() => {
     axiosWithAuth()
       .get("https://kono-di-da.herokuapp.com/api/room")
@@ -29,6 +30,7 @@ const GameView = () => {
         console.log("rooms", rooms);
       });
 
+    //
     axiosWithAuth()
       .get("https://kono-di-da.herokuapp.com/api/players")
       .then((response) => {
@@ -43,14 +45,6 @@ const GameView = () => {
         setItems(response.data);
       });
   }, []);
-
-  const getCurrentRoom = () => {
-    axiosWithAuth()
-      .get(`https://kono-di-da.herokuapp.com/api/room/${player.room_id}/`)
-      .then((res) => {
-        console.log("res from room call", res.data.right_id);
-      });
-  };
 
   const updatePlayerLocation = () => {
     axiosWithAuth()
@@ -225,79 +219,111 @@ const GameView = () => {
 
   const formatRoom = (room) => {
     if (
+      (room.name.includes("Dec") && !room.name.includes("outside")) ||
+      (room.name.includes("Feb") && !room.name.includes("outside")) ||
+      (room.name.includes("Jan") && !room.name.includes("outside"))
+    ) {
+      return "current-room-Winter";
+    } else if (
       room.name.includes("Dec") ||
       room.name.includes("Feb") ||
       room.name.includes("Jan")
     ) {
-      return "current-room-Winter";
+      return "current-room-Winter-out";
+    } else if (
+      (room.name.includes("Mar") && !room.name.includes("outside")) ||
+      (room.name.includes("Apr") && !room.name.includes("outside")) ||
+      (room.name.includes("May") && !room.name.includes("outside"))
+    ) {
+      return "current-room-Spring";
     } else if (
       room.name.includes("Mar") ||
       room.name.includes("Apr") ||
       room.name.includes("May")
     ) {
-      return "current-room-Spring";
-    } else if (room.name.includes("Jun") || room.name.includes("Jul")) {
+      return "current-room-Spring-out";
+    } else if (
+      (room.name.includes("Jun") && !room.name.includes("outside")) ||
+      (room.name.includes("Jul") && !room.name.includes("outside")) ||
+      (room.name.includes("Aug") && !room.name.includes("outside"))
+    ) {
       return "current-room-Summer";
-    } else return "current-room-Fall";
+    } else if (
+      room.name.includes("Jun") ||
+      room.name.includes("Jul") ||
+      room.name.includes("Aug")
+    ) {
+      return "current-room-Summer-out";
+    } else if (
+      (room.name.includes("Sep") && !room.name.includes("outside")) ||
+      (room.name.includes("Oct") && !room.name.includes("outside")) ||
+      (room.name.includes("Nov") && !room.name.includes("outside"))
+    ) {
+      return "current-room-Fall";
+    } else if (
+      room.name.includes("Sep") ||
+      room.name.includes("Oct") ||
+      room.name.includes("Nov")
+    ) {
+      return "current-room-Fall-out";
+    }
   };
 
   return (
-    <div className="game-view">
-      <h1>Welcome {playerState.name ? playerState.name : "Weirdo"}</h1>
-      <h1>Game View</h1>
-
-      <Player player={player} rooms={rooms} items={items} />
-
+    // {localStorage.includes(token) ? <div>Please Register and Log In</div> : <div>Oh Hey</div>}
+    <div>
       <div className="player-view">
-        <div>
-          {rooms
-            .filter((room) => player.room_id === room.id)
-            .map((room) => {
-              return (
-                <div className={formatRoom(room)}>
-                  <p>{room.name}</p>
+        {rooms
+          .filter((room) => player.room_id === room.id)
+          .map((room) => {
+            return (
+              <div className={formatRoom(room)}>
+                <div>
+                  <div className="player-stats">
+                    <Player
+                      player={player}
+                      rooms={rooms}
+                      items={items}
+                      className="player-stats"
+                    />{" "}
+                    <p>{room.name}</p>{" "}
+                  </div>
+                  <div className="controls">
+                    {" "}
+                    <div>
+                      <button onClick={moveUp} value="up">
+                        &#8593;
+                      </button>
+                    </div>
+                    <div>
+                      <button onClick={moveInside}>Inside</button>
+                      <button onClick={moveLeft} value="left">
+                        &#8592;
+                      </button>
+                      <button onClick={pickUpItem}>pick up item</button>
+                      <button onClick={dropItem}>drop item</button>
+                      <button onClick={moveRight} value="right">
+                        &#8594;
+                      </button>
+                      <button onClick={moveOutside}>Outside</button>
+                    </div>
+                    <div className="down">
+                      <button onClick={moveDown} value="down">
+                        &#8595;
+                      </button>
+                    </div>
+                  </div>
+                  <div className="map">
+                    <CalendarMap
+                      currentLocation={currentLocation}
+                      rooms={rooms}
+                      player={player}
+                    />
+                  </div>
                 </div>
-              );
-            })}
-        </div>
-        <div className="controls">
-          <div>
-            <button onClick={pickUpItem}>pick up item</button>
-            <button onClick={dropItem}>drop item</button>
-          </div>
-          <div className="arrows">
-            <div className="up">
-              <button onClick={moveUp} value="up">
-                &#8593;
-              </button>
-            </div>
-            <div className="left-and-right">
-              <button onClick={moveLeft} value="left">
-                &#8592;
-              </button>
-              <button onClick={moveRight} value="right">
-                &#8594;
-              </button>
-            </div>
-            <div className="down">
-              <button onClick={moveDown} value="down">
-                &#8595;
-              </button>
-            </div>
-          </div>
-          <div className="inside-outside">
-            <button onClick={moveInside}>Move Inside</button>
-            <button onClick={moveOutside}>Move Outside</button>
-          </div>
-        </div>
-        <div className="map">
-          <p>Map</p>
-          <CalendarMap
-            currentLocation={currentLocation}
-            rooms={rooms}
-            player={player}
-          />
-        </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

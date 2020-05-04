@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { axiosWithAuth } from "../../utils/axiosWithAuth";
+import React from "react";
 
 const CalendarMap = (props) => {
   return (
